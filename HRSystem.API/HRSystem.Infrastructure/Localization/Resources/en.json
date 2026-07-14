@@ -1,0 +1,17 @@
+{
+  "EmployeesLoaded": "Employees loaded successfully.",
+  "EmployeeLoaded": "Employee loaded successfully.",
+  "EmployeeCreated": "Employee created successfully.",
+  "EmployeeUpdated": "Employee updated successfully.",
+  "EmployeeDeleted": "Employee deleted successfully.",
+  "EmployeeNotFound": "Employee was not found.",
+  "InvalidLogin": "Invalid user name or password.",
+  "LoginSuccess": "Login completed successfully.",
+  "GoogleLoginFailed": "Google sign-in failed.",
+  "ValidationFailed": "Please check the sent data.",
+  "ErrorRetrievingEmployees": "An error occurred while retrieving the list of employees.",
+  "ErrorRetrievingEmployee": "An error occurred while retrieving the employee.",
+  "ErrorCreatingEmployee": "An error occurred while creating the new employee.",
+  "ErrorUpdatingEmployee": "An error occurred while updating the employee.",
+  "ErrorDeletingEmployee": "An error occurred while deleting the employee."
+}

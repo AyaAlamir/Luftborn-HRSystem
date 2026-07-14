@@ -1,0 +1,22 @@
+<main class=login-page>
+ <section class=brand-panel>
+  <div class=brand><span class=brand-mark>L</span>Luftborn</div>
+  <div class=brand-message><span class=eyebrow>HR made simple</span><h1>People are at the heart of everything.</h1><p>One simple place to manage your team and everyday HR work.</p></div>
+  <small>© 2026 Luftborn</small>
+ </section>
+ <section class=form-panel><div class=login-card>
+  <span class=mobile-brand><span class=brand-mark>L</span> Luftborn</span>
+  <div class=heading><span>👋</span><h2>Welcome back</h2><p>Sign in to continue to your HR workspace.</p></div>
+  <form (ngSubmit)="submit()">
+   <label>Username</label>
+   <div class="input-wrap"><span>✉</span><input name="username" [(ngModel)]="username" placeholder="Enter your username" /></div>
+   <div class="label-row"><label>Password</label><a href="#">Forgot password?</a></div>
+   <div class="input-wrap"><span>●</span><input name="password" [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" /><button type="button" (click)="showPassword=!showPassword">Show</button></div>
+   @if(error){<p class="error">{{error}}</p>}
+   <button class="primary-btn" [disabled]="loading">{{loading ? 'Signing in...' : 'Sign in'}}</button>
+  </form>
+  <div class="divider">or continue with</div>
+  <button class="sso-btn" type="button" (click)="ssoLogin()"><b>▦</b> Sign in with Google</button>
+  <p class="hint">Sign in using your HR System account.</p>
+ </div></section>
+</main>

@@ -1,0 +1,145 @@
+<div class="shell">
+    <aside>
+        <div class="brand"><b>P</b><strong>Luftborn</strong></div>
+        <nav><small>Workspace</small><a class="active">◇ <span>Employees</span></a><a>▤ <span>Departments</span></a><a>◷
+                <span>Time off</span></a><small>Management</small><a>▥ <span>Reports</span></a><a>⚙
+                <span>Settings</span></a></nav>
+        <div class="side-user"><i>{{initials(auth.userName())}}</i>
+            <div><strong>{{auth.userName()}}</strong><small>Administrator</small></div><button
+                (click)="auth.logout()">↪</button>
+        </div>
+    </aside>
+    <main>
+        <header><span>Search anything...</span>
+            <div><button>?</button><button>♢</button><i>{{initials(auth.userName())}}</i></div>
+        </header>
+        <section class="content">
+            <div class="title-row">
+                <div><small>People / Employees</small>
+                    <h1>Employees</h1>
+                    <p>Manage your team members and their account details.</p>
+                </div><button class="add" (click)="add()">＋ Add employee</button>
+            </div>
+            @if(error()){<p class="error">{{error()}}</p>}
+            <div class="stats">
+                <article><b>♙</b>
+                    <div><small>Total employees</small><strong>{{employees().length}}</strong><span>All team
+                            members</span></div>
+                </article>
+                <article><b>▤</b>
+                    <div><small>Departments</small><strong>{{departmentCount()}}</strong><span>Across the
+                            organization</span></div>
+                </article>
+                <article><b>$</b>
+                    <div><small>Total payroll</small><strong>{{totalPayroll()}}</strong><span>Employee salaries</span>
+                    </div>
+                </article>
+            </div>
+            <div class="card">
+                <div class="toolbar"><label>⌕<input [ngModel]="query()" (ngModelChange)="query.set($event)"
+                            placeholder="Search employees..." /></label><select [ngModel]="department()"
+                        (ngModelChange)="department.set($event)">
+                        <option>All</option>@for(item of departments();track item){<option [value]="item">{{item}}
+                        </option>}
+                    </select></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Department</th>
+                                <th>Phone</th>
+                                <th>Salary</th>
+                                <th>Hired</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(loading() && !employees().length){<tr>
+                                <td class="empty" colspan="6">Loading employees...</td>
+                            </tr>}
+                            @for(e of filtered();track e.id){<tr>
+                                <td>
+                                    <div class="person"><i>{{initials(e)}}</i>
+                                        <div><strong>{{fullName(e)}}</strong><small>{{e.email}}</small></div>
+                                    </div>
+                                </td>
+                                <td>{{e.department}}</td>
+                                <td>{{e.phoneNumber || '—'}}</td>
+                                <td>{{e.salary}}</td>
+                                <td>{{e.hireDate | slice:0:10}}</td>
+                                <td>
+                                    <div class="actions"><button (click)="view(e)">◉</button><button
+                                            (click)="edit(e)">✎</button><button (click)="askDelete(e)">♲</button></div>
+                                </td>
+                            </tr>}@empty{@if(!loading()){<tr>
+                                <td class="empty" colspan="6">No employees match your search.</td>
+                            </tr>}}
+                        </tbody>
+                    </table>
+                </div>
+                <footer>Showing <b>{{filtered().length}}</b> of <b>{{employees().length}}</b> employees</footer>
+            </div>
+        </section>
+    </main>
+</div>
+
+@if(modal){<div class="overlay" (click)="close()">
+    <section class="modal" (click)="$event.stopPropagation()">
+        @if(modal==='form'){<div class="modal-head">
+            <div>
+                <h2>{{selected?'Edit employee':'Add employee'}}</h2>
+                <p>{{selected?'Update employee information.':'Create a new employee profile.'}}</p>
+            </div><button (click)="close()">×</button>
+        </div>
+        <form (ngSubmit)="save()">
+            <div class="form-grid"><label>First name<input name="firstName" [(ngModel)]="form.firstName"
+                        required /></label><label>Last name<input name="lastName" [(ngModel)]="form.lastName"
+                        required /></label><label>Email<input name="email" [(ngModel)]="form.email" type="email"
+                        required /></label><label>Phone<input name="phoneNumber"
+                        [(ngModel)]="form.phoneNumber" /></label><label>Hire date<input name="hireDate"
+                        [(ngModel)]="form.hireDate" type="date" required /></label><label>Department<input
+                        name="department" [(ngModel)]="form.department" required /></label><label>Salary<input
+                        name="salary" [(ngModel)]="form.salary" type="number" min="0" required /></label></div>
+            <div class="modal-actions"><button type="button" (click)="close()">Cancel</button><button class="save"
+                    [disabled]="loading()">{{loading()?'Saving...':(selected?'Save changes':'Add employee')}}</button>
+            </div>
+        </form>}
+        @if(modal==='view'&&selected){<div class="modal-head">
+            <div>
+                <h2>Employee details</h2>
+                <p>Profile and contact information.</p>
+            </div><button (click)="close()">×</button>
+        </div>
+        <div class="profile"><i>{{initials(selected)}}</i>
+            <h3>{{fullName(selected)}}</h3><span>{{selected.department}}</span>
+        </div>
+        <dl>
+            <div>
+                <dt>Email</dt>
+                <dd>{{selected.email}}</dd>
+            </div>
+            <div>
+                <dt>Phone</dt>
+                <dd>{{selected.phoneNumber||'Not provided'}}</dd>
+            </div>
+            <div>
+                <dt>Salary</dt>
+                <dd>{{selected.salary}}</dd>
+            </div>
+            <div>
+                <dt>Hire date</dt>
+                <dd>{{selected.hireDate | slice:0:10}}</dd>
+            </div>
+        </dl>
+        <div class="modal-actions"><button (click)="close()">Close</button><button class="save"
+                (click)="edit(selected)">Edit employee</button></div>}
+        @if(modal==='delete'&&selected){<div class="delete-box"><b>!</b>
+            <h2>Delete employee?</h2>
+            <p>Are you sure you want to delete <strong>{{fullName(selected)}}</strong>? This cannot be undone.</p>
+        </div>
+        <div class="modal-actions"><button (click)="close()">Cancel</button><button class="danger"
+                [disabled]="loading()" (click)="confirmDelete()">{{loading()?'Deleting...':'Delete employee'}}</button>
+        </div>}
+    </section>
+</div>}

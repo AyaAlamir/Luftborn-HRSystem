@@ -1,0 +1,17 @@
+{
+  "EmployeesLoaded": "تم تحميل الموظفين بنجاح.",
+  "EmployeeLoaded": "تم تحميل الموظف بنجاح.",
+  "EmployeeCreated": "تم إنشاء الموظف بنجاح.",
+  "EmployeeUpdated": "تم تحديث الموظف بنجاح.",
+  "EmployeeDeleted": "تم حذف الموظف بنجاح.",
+  "EmployeeNotFound": "الموظف غير موجود.",
+  "InvalidLogin": "اسم المستخدم أو كلمة المرور غير صالحة.",
+  "LoginSuccess": "تم تسجيل الدخول بنجاح.",
+  "GoogleLoginFailed": "فشل تسجيل الدخول بحساب Google.",
+  "ValidationFailed": "يرجى التحقق من البيانات المرسلة.",
+  "ErrorRetrievingEmployees": "حدث خطأ أثناء استرداد قائمة الموظفين.",
+  "ErrorRetrievingEmployee": "حدث خطأ أثناء استرداد الموظف.",
+  "ErrorCreatingEmployee": "حدث خطأ أثناء إنشاء موظف جديد.",
+  "ErrorUpdatingEmployee": "حدث خطأ أثناء تحديث الموظف.",
+  "ErrorDeletingEmployee": "حدث خطأ أثناء حذف الموظف."
+}
